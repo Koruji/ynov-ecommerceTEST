@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const users = require('../data/users');
+const FEATURE_SURPRISE = process.env.FEATURE_SURPRISE === 'true'; 
 
 // GET /api/users
 router.get('/', (req, res) => {
-  res.json(users);
+  if (FEATURE_SURPRISE) {
+    res.json({name: 'COUCOU'});
+  } else {
+    res.json(users);
+  }
 });
 
 // GET /api/users/:id
