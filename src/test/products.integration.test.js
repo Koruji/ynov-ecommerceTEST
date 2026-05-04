@@ -1,14 +1,13 @@
 const request = require('supertest');
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
-const productsRouter = require('../routes/products');
 
 // Setup base de données SQLite pour les tests
 let db;
 
 beforeAll((done) => {
   db = new sqlite3.Database(':memory:');
-  
+
   db.serialize(() => {
     db.run(`
       CREATE TABLE products (
@@ -45,7 +44,7 @@ describe('Products Router - Integration Tests with SQLite', () => {
   beforeEach(() => {
     app = express();
     app.use(express.json());
-    
+
     // Route qui utilise la base de données
     app.get('/api/products', (req, res) => {
       db.all('SELECT * FROM products', (err, rows) => {

@@ -22,7 +22,6 @@ describe('Products Router', () => {
     it('should return all products with V1 format by default', async () => {
       delete process.env.FEATURE_V2_PRODUCTS;
       const res = await request(app).get('/api/products');
-      
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body)).toBe(true);
       expect(res.body.length).toBe(3);
@@ -36,7 +35,6 @@ describe('Products Router', () => {
   describe('GET /api/products/:id', () => {
     it('should return a product by ID', async () => {
       const res = await request(app).get('/api/products/1');
-      
       expect(res.status).toBe(200);
       expect(res.body.id).toBe(1);
       expect(res.body.name).toBe('Laptop Pro 15"');
@@ -45,14 +43,14 @@ describe('Products Router', () => {
 
     it('should return 404 for non-existent product', async () => {
       const res = await request(app).get('/api/products/999');
-      
+
       expect(res.status).toBe(404);
       expect(res.body.error).toBe('Product not found');
     });
 
     it('should handle invalid ID format gracefully', async () => {
       const res = await request(app).get('/api/products/abc');
-      
+
       expect(res.status).toBe(404);
     });
   });

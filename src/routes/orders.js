@@ -32,7 +32,6 @@ router.post('/', async (req, res) => {
   if (!userId || !productIds || !Array.isArray(productIds)) {
     return res.status(400).json({ error: 'userId and productIds[] are required' });
   }
-  
   const newOrder = {
     id: orders.length + 1,
     userId,
@@ -41,7 +40,7 @@ router.post('/', async (req, res) => {
     status: 'pending',
     createdAt: new Date().toISOString().split('T')[0],
   };
-  
+
   orders.push(newOrder);
 
   // Envoyer email
