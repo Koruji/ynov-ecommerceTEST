@@ -1,6 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const orders = require('../data/orders');
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
 
 // GET /api/orders
 router.get('/', (req, res) => {
@@ -18,11 +27,12 @@ router.get('/:id', (req, res) => {
 });
 
 // POST /api/orders
-router.post('/', (req, res) => {
-  const { userId, productIds } = req.body;
+router.post('/', async (req, res) => {
+  const { userId, productIds, email } = req.body;
   if (!userId || !productIds || !Array.isArray(productIds)) {
     return res.status(400).json({ error: 'userId and productIds[] are required' });
   }
+  
   const newOrder = {
     id: orders.length + 1,
     userId,
@@ -31,7 +41,19 @@ router.post('/', (req, res) => {
     status: 'pending',
     createdAt: new Date().toISOString().split('T')[0],
   };
+  
   orders.push(newOrder);
+
+  // Envoyer email
+  if (email) {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: `Commande #${newOrder.id} confirmée`,
+      html: `<h2>Commande confirmée!</h2><p>N°: #${newOrder.id}</p>`,
+    });
+  }
+
   res.status(201).json(newOrder);
 });
 
