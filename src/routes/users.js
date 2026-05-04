@@ -4,7 +4,11 @@ const users = require('../data/users');
 
 // GET /api/users
 router.get('/', (req, res) => {
+<<<<<<< Updated upstream
   res.json(users);
+=======
+    res.json(users);
+>>>>>>> Stashed changes
 });
 
 // GET /api/users/:id
