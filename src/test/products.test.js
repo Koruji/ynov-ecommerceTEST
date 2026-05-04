@@ -127,7 +127,6 @@ describe('Products Router', () => {
   describe('GET /api/products with feature flag', () => {
   it('should return V1 format by default (no feature flag)', async () => {
     delete process.env.FEATURE_V2_PRODUCTS;
-    
     const res = await request(app).get('/api/products');
 
     expect(res.status).toBe(200);
