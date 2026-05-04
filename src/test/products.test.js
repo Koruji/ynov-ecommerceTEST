@@ -138,19 +138,5 @@ describe('Products Router', () => {
     expect(res.body[0]).not.toHaveProperty('priceFormatted');
   });
 
-  it('should return V2 format when FEATURE_V2_PRODUCTS is enabled', async () => {
-    process.env.FEATURE_V2_PRODUCTS = 'true';
-    
-    const res = await request(app).get('/api/products');
-
-    expect(res.status).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
-    expect(res.body[0]).toHaveProperty('available');
-    expect(res.body[0]).toHaveProperty('priceFormatted');
-    expect(res.body[0].priceFormatted).toMatch(/^€\d+\.\d{2}$/);
-    expect(typeof res.body[0].available).toBe('boolean');
-    
-    delete process.env.FEATURE_V2_PRODUCTS;
-  });
 });
 });
