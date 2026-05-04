@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const users = require('../data/users');
-const FEATURE_SURPRISE = process.env.FEATURE_SURPRISE === 'true'; 
+const FEATURE_SURPRISE = process.env.FEATURE_SURPRISE === 'true';
 
 // GET /api/users
 router.get('/', (req, res) => {
