@@ -39,8 +39,8 @@ pipeline {
                 withSonarQubeEnv('SonarCloud') {
                     sh '''
                         npx sonar-scanner \
-                          -Dsonar.projectKey=cottin \
-                          -Dsonar.organization=COTTIN \
+                          -Dsonar.projectKey=Koruji_ynov-ecommerceTEST \
+                          -Dsonar.organization=cottin \
                           -Dsonar.sources=src \
                           -Dsonar.host.url=https://sonarcloud.io
                     '''
