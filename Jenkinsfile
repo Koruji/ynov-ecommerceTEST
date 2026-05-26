@@ -5,6 +5,10 @@ pipeline {
         nodejs 'node18'
     }
 
+    environment {
+        SONAR_TOKEN = credentials('sonarcloud-token')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -29,11 +33,25 @@ pipeline {
                 sh 'npm test'
             }
         }
+
+        stage('SonarCloud Analysis') {
+            steps {
+                withSonarQubeEnv('SonarCloud') {
+                    sh '''
+                        npx sonar-scanner \
+                          -Dsonar.projectKey=cottin \
+                          -Dsonar.organization=COTTIN \
+                          -Dsonar.sources=src \
+                          -Dsonar.host.url=https://sonarcloud.io
+                    '''
+                }
+            }
+        }
     }
 
     post {
         success {
-            echo 'Pipeline OK - lint et tests passés'
+            echo 'Pipeline OK - lint, tests et analyse Sonar passés'
         }
         failure {
             echo 'Pipeline FAILED - vérifie les logs'
